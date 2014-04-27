@@ -22,10 +22,10 @@ makeCacheMatrix <- function(x = matrix()) {
     minv <- NULL
     set <- function(y){
         x <<- y
-        minv <<- NULL
+        minv <<- NULL 
     }
     get <- function() x
-    setinv <- function(solve) minv <<- solve
+    setinv <- function(solution) minv <<- solution
     getinv <- function() minv
     list(set=set, get=get, setinv=setinv, getinv=getinv)
 }
@@ -39,11 +39,11 @@ cacheSolve <- function(x, ...) {
     ## Else it calculates the inverse and caches it for later use
     
     minv <- x$getinv()
-    if(!is.null(minv)) {
-        message("retrieving cached data")
-        return(minv)
+    if(!is.null(minv)) {                   ## check for existence
+        message("retrieving cached data") 
+        return(minv)                       ## NOTE - exiting function!
     }
-    data <- x$get()
+    data <- x$get()                        ## otherwise, solve, cache, and exit
     minv <- solve(data, ...)
     x$setinv(minv)
     minv
