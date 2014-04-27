@@ -41,10 +41,34 @@ cacheSolve <- function(x, ...) {
     minv <- x$getinv()
     if(!is.null(minv)) {                   ## check for existence
         message("retrieving cached data") 
-        return(minv)                       ## NOTE - exiting function!
-    }
+   ##     return(minv)                       ## NOTE - exiting function!
+    } 
+   else {
     data <- x$get()                        ## otherwise, solve, cache, and exit
     minv <- solve(data, ...)
     x$setinv(minv)
+   }
+    minv
+}
+
+cacheSolve2 <- function(x, ...) {
+    
+    ## Cleaner version - doesn't branch out in middle of function!
+    
+    ## Returns the matrix inverse of 'x'
+    
+    ## First it checks to see if the inverse has already been calculated
+    ## If so, it retrieves the calculated value
+    ## Else it calculates the inverse and caches it for later use
+    
+    minv <- x$getinv()                         ## get cached data, possibly NULL
+    if(!is.null(minv)) {
+        message("returning cached data")
+    } 
+    else {
+        data <- x$get()                        ## otherwise, solve, cache, and exit
+        minv <- solve(data, ...)
+        x$setinv(minv)
+    }
     minv
 }
